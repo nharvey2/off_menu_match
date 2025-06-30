@@ -13,7 +13,7 @@ with open("menus_data_store.json", "r") as f:
 
 EMBEDDINGS_INDEX = faiss.read_index("menu_embeddings.index")
 
-def return_embedded_dictionary(dict: dict[str, str], embedding_model: SentenceTransformer):
+def return_embedded_dictionary(dict: dict[str, str], embedding_model: SentenceTransformer) -> np.ndarray:
     """Take an input dictionary and convert it to an embedding.
 
     Args:
