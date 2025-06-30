@@ -1,26 +1,24 @@
 """File containing functions related to word/sentence embeddings"""
 from sentence_transformers import SentenceTransformer
-import json
 import numpy as np
 import faiss
 model = SentenceTransformer('all-MiniLM-L6-v2')
+from config import MENU_DATA_STORE, EMBEDDINGS_INDEX
 
 dimension = 384
 index = faiss.IndexFlatL2(dimension)
 
-with open("menus_data_store.json", "r") as f:
-    MENU_DATA_STORE = json.load(f)
-
-EMBEDDINGS_INDEX = faiss.read_index("menu_embeddings.index")
-
-def return_embedded_dictionary(dict: dict[str, str], embedding_model: SentenceTransformer) -> np.ndarray:
+def return_embedded_dictionary(menu_dict: dict[str, str], embedding_model: SentenceTransformer) -> np.ndarray:
     """Take an input dictionary and convert it to an embedding.
 
     Args:
         menu_dict (dict[str, str]): Dictionary to embed.
         embedding_model (SentenceTransformer): Embedding model to use.
+
+    Returns:
+        embedding (np.ndarray): Embedding for inputted menu dictionary.
     """
-    dict_str = ' '.join(f"{key}: {value}" for key, value in dict.items())
+    dict_str = ' '.join(f"{key}: {value}" for key, value in menu_dict.items())
     embedding = embedding_model.encode(dict_str).astype('float32').reshape(1,-1)
 
     return embedding
