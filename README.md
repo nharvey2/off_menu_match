@@ -10,11 +10,11 @@ This tool uses text embeddings to compare your menu to that of its *Off Menu* me
 
 This tool is currently a work in progress, and is mainly for the purposes of playing around and becoming more familiar with working with text embeddings. Feedback and suggestions are very welcome!
 
-## Features
+## Data Gathering
 
-- Compare your dream menu to celebrities from the *Off Menu* podcast
-- Interactive and easy-to-use interface powered by Streamlit
-- Uses similarity matching to find your best celebrity menu match
+To gather the data, I first started by scraping the *Off Menu* website for any links that contained the word "Transcript", as these would most likely be transcripts from podcast episodes. Once I had a list of links to the PDFs containing the transcripts, I downloaded each PDF.
+
+Using PdfReader, I extracted the text from the last 10 pages of the transcript - as this is typically where the final menu will be read out. I then used a Google Gemini model (gemini-2.0-flash) and instructed it to extract the menus from the provided text. These are then stored in a json dictionary, which can be seen in the file menus_data_store.json. After this, I converted each celebrity menu into embeddings using SentenceTransformer and stored them in a FAISS index - ready to be compared with whatever the user inputs as their ideal menu.
 
 ## How to Run
 
